@@ -1,0 +1,25 @@
+{% extends 'fir_irma/standalone/standalone_base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+<div class="container" id="top">
+  <div id="header" class="row">
+    <div class="col-md-6">
+        <a href="/"><img alt="IRMA" src="{% static 'irma/resources/logo.jpg' %}" /></a>
+    </div>
+    <div class="col-md-6">
+        <h2>Incident Response<br />Malware Analysis</h2>
+    </div>
+  </div>
+  {% include "fir_irma/partial_irma.html" %}
+
+</div>
+{% endblock %}
+
+{% block custom_js %}
+    {{ block.super }}
+    {% with standalone=True %}
+        {% include "fir_irma/partial_irmajs.html" %}
+    {% endwith %}
+{% endblock %}

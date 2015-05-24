@@ -1,0 +1,21 @@
+{% load staticfiles %}
+{% load i18n %}
+
+<ul class="list-inline status" ng-if="!state.settings.maintenance">
+    <li class="{$(state.location=='selection')?'active':''$}"><a href="{% url "fir_irma:ui:index" sub="selection" %}">{%  trans "Selection" %}</a></li>
+    <li>&gt;</li>
+    <li class="{$(state.location=='upload')?'active':''$}">{%  trans "Upload" %}</li>
+    <li>&gt;</li>
+    <li class="{$(state.location=='scan')?'active':''$}">{%  trans "Scan" %}</li>
+    <li>|</li>
+    <li class="{$(state.location=='search')?'active':''$}"><a href="{% url "fir_irma:ui:index" sub="search" %}">{%  trans "Search" %}</a></li>
+</ul>
+
+<div class="spinner main" ng-if="state.settings.loading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div ng-view ng-if="!state.settings.loading"></div>
+
+<alerts></alerts>

@@ -1,0 +1,396 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-24 22:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: models.py:33
+msgid "scan ID"
+msgstr "Id du scan"
+
+#: models.py:33
+msgid "Internal ID in IRMA"
+msgstr "Identifiant interne d'IRMA"
+
+#: models.py:34
+msgid "user"
+msgstr "utilisateur"
+
+#: models.py:34
+msgid "User who created this scan"
+msgstr "Utilisateur qui a créé le scan"
+
+#: models.py:35
+msgid "creation date"
+msgstr "date de création"
+
+#: models.py:36
+msgid "probes"
+msgstr "sondes"
+
+#: models.py:37
+msgid "Probes used by this scan"
+msgstr "Sondes utilisées par ce scan"
+
+#: models.py:38
+msgid "force scan"
+msgstr "Forcer le scan"
+
+#: models.py:38
+msgid "Bypass the cache"
+msgstr "Éviter le cache"
+
+#: models.py:41
+#, python-brace-format
+msgid "Scan launched on {date} by {user}"
+msgstr "Scan lancé à {date} par {user}"
+
+#: models.py:44
+msgid "IRMA scan"
+msgstr "scan IRMA"
+
+#: models.py:45
+msgid "IRMA scans"
+msgstr "scans IRMA"
+
+#: models.py:47
+msgid "Scan files"
+msgstr "Scanner des fichiers"
+
+#: models.py:48
+msgid "Read all scan results"
+msgstr "Lire tous les résultats de scan"
+
+#: models.py:49
+msgid "Can force scan"
+msgstr "Peut forcer un scan"
+
+#: templates/fir_irma/fir_scan.html:4
+#: templates/fir_irma/views/selection.html:58
+msgid "Scan for malwares"
+msgstr "Rechercher des malwares"
+
+#: templates/fir_irma/fir_scan.html:4
+msgid "with IRMA"
+msgstr "avec IRMA"
+
+#: templates/fir_irma/irma_interface.html:17
+#: templates/fir_irma/partial_irma.html:5
+msgid "Selection"
+msgstr "Sélection"
+
+#: templates/fir_irma/irma_interface.html:19
+#: templates/fir_irma/partial_irma.html:7
+msgid "Upload"
+msgstr "Chargement"
+
+#: templates/fir_irma/irma_interface.html:21
+#: templates/fir_irma/partial_irma.html:9
+#: templates/fir_irma/plugins/base_navbar.html:3
+msgid "Scan"
+msgstr ""
+
+#: templates/fir_irma/irma_interface.html:23
+#: templates/fir_irma/partial_irma.html:11
+msgid "Search"
+msgstr "Recherche"
+
+#: templates/fir_irma/plugins/correlation_list.html:5
+#, fuzzy
+#| msgid "Scan files"
+msgid "Scans"
+msgstr "Scanner des fichiers"
+
+#: templates/fir_irma/plugins/correlation_list.html:10
+msgid "Date"
+msgstr ""
+
+#: templates/fir_irma/plugins/correlation_list.html:11
+msgid "User"
+msgstr "Utilisateur"
+
+#: templates/fir_irma/plugins/correlation_list.html:12
+msgid "File count"
+msgstr ""
+
+#: templates/fir_irma/plugins/correlation_list.html:13
+#, fuzzy
+#| msgid "probes"
+msgid "Probes"
+msgstr "sondes"
+
+#: templates/fir_irma/plugins/correlation_list.html:14
+msgid "View"
+msgstr "Voir"
+
+#: templates/fir_irma/plugins/correlation_list.html:34
+msgid "No scan found."
+msgstr "Aucun scan trouvé."
+
+#: templates/fir_irma/standalone/login.html:13
+msgid "Sign in to IRMA"
+msgstr "Se connecter à IRMA"
+
+#: templates/fir_irma/standalone/login.html:16
+msgid "Username"
+msgstr "Utilisateur"
+
+#: templates/fir_irma/standalone/login.html:19
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/fir_irma/standalone/login.html:23
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+#: templates/fir_irma/standalone/login.html:26
+msgid "Sign in"
+msgstr "Se connecter"
+
+#: templates/fir_irma/standalone/login.html:32
+msgid "Wrong username / password combination."
+msgstr "Mauvais nom ou mot de passe"
+
+#: templates/fir_irma/standalone/login.html:32
+msgid "I can break the rules, too."
+msgstr ""
+
+#: templates/fir_irma/standalone/standalone_base.html:32
+msgid "Admin site"
+msgstr "Site d'admin."
+
+#: templates/fir_irma/standalone/standalone_base.html:35
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/fir_irma/views/details.html:4
+msgid "Back to the scan summary"
+msgstr "Retour au résumé du scan"
+
+#: templates/fir_irma/views/details.html:7
+#: templates/fir_irma/views/details.html:135
+msgid "File informations"
+msgstr "Informations du fichier"
+
+#: templates/fir_irma/views/details.html:11
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#: templates/fir_irma/views/details.html:15
+msgid "Size (bytes)"
+msgstr "Taille (octets)"
+
+#: templates/fir_irma/views/details.html:19
+msgid "MD5"
+msgstr ""
+
+#: templates/fir_irma/views/details.html:23
+msgid "SHA1"
+msgstr ""
+
+#: templates/fir_irma/views/details.html:27
+#: templates/fir_irma/views/search.html:26
+msgid "SHA256"
+msgstr ""
+
+#: templates/fir_irma/views/details.html:31
+msgid "First Scan"
+msgstr "Premier scan"
+
+#: templates/fir_irma/views/details.html:35
+msgid "Last Scan"
+msgstr "Dernier scan"
+
+#: templates/fir_irma/views/details.html:44
+#: templates/fir_irma/views/details.html:138
+msgid "Antivirus"
+msgstr ""
+
+#: templates/fir_irma/views/details.html:48
+#: templates/fir_irma/views/search.html:24
+msgid "Name"
+msgstr "Nom"
+
+#: templates/fir_irma/views/details.html:49
+msgid "Result"
+msgstr "Résultat"
+
+#: templates/fir_irma/views/details.html:50
+msgid "Version"
+msgstr ""
+
+#: templates/fir_irma/views/details.html:51
+msgid "Duration (in secs)"
+msgstr "Durée (en secondes)"
+
+#: templates/fir_irma/views/details.html:59
+msgid "Antivirus scan ended up in an error state :("
+msgstr "Le scan antiviral a fini en erreur :("
+
+#: templates/fir_irma/views/details.html:68
+#: templates/fir_irma/views/details.html:145
+msgid "Metadata"
+msgstr "Métadonnées"
+
+#: templates/fir_irma/views/details.html:70
+#: templates/fir_irma/views/details.html:96
+#: templates/fir_irma/views/details.html:118
+#, python-format
+msgid "Responded in %(duration)s s"
+msgstr "Réponse en %(duration)s s"
+
+#: templates/fir_irma/views/details.html:81
+#: templates/fir_irma/views/details.html:103
+msgid "Warning:"
+msgstr "Attention :"
+
+#: templates/fir_irma/views/details.html:86
+#: templates/fir_irma/views/details.html:108
+#: templates/fir_irma/views/details.html:122
+msgid "Error:"
+msgstr "Erreur :"
+
+#: templates/fir_irma/views/details.html:94
+#: templates/fir_irma/views/details.html:152
+msgid "External"
+msgstr "Externe"
+
+#: templates/fir_irma/views/details.html:116
+#: templates/fir_irma/views/details.html:159
+msgid "Database"
+msgstr "Base de données"
+
+#: templates/fir_irma/views/details.html:165
+msgid "Back to top"
+msgstr "Retour en haut"
+
+#: templates/fir_irma/views/maintenance.html:3
+msgid "IRMA is currently in maintenance mode"
+msgstr "IRMA est actuellement en maintenance"
+
+#: templates/fir_irma/views/maintenance.html:4
+msgid "We are doing the best we can to bring back IRMA as soon as possible"
+msgstr ""
+
+#: templates/fir_irma/views/scan.html:22
+msgid "Scan status:"
+msgstr "Statut du scan :"
+
+#: templates/fir_irma/views/scan.html:25
+msgid "Finished"
+msgstr "Terminé"
+
+#: templates/fir_irma/views/scan.html:26
+msgid "Running"
+msgstr "En cours"
+
+#: templates/fir_irma/views/scan.html:27
+msgid "Stopped"
+msgstr "Arrêté"
+
+#: templates/fir_irma/views/scan.html:33
+msgid "Scan Id:"
+msgstr "Id du scan :"
+
+#: templates/fir_irma/views/scan.html:39
+msgid "Tasks:"
+msgstr "Tâches :"
+
+#: templates/fir_irma/views/scan.html:48
+#: templates/fir_irma/views/upload.html:10
+msgid "Cancel"
+msgstr "Annuler"
+
+#: templates/fir_irma/views/scan.html:49
+msgid "New Scan"
+msgstr "Nouveau scan"
+
+#: templates/fir_irma/views/search.html:7
+msgid "By name"
+msgstr "Par nom"
+
+#: templates/fir_irma/views/search.html:8
+msgid "By hash"
+msgstr "Par hash"
+
+#: templates/fir_irma/views/search.html:13
+msgid "Type your search here"
+msgstr "Tapez votre recherche ici"
+
+#: templates/fir_irma/views/search.html:15
+msgid "Go!"
+msgstr "Aller !"
+
+#: templates/fir_irma/views/search.html:25
+msgid "Last seen"
+msgstr "Dernier scan"
+
+#: templates/fir_irma/views/search.html:27
+msgid "Size"
+msgstr "Taille"
+
+#: templates/fir_irma/views/selection.html:8
+msgid "Drop your files in here"
+msgstr "Déposez vos fichiers ici"
+
+#: templates/fir_irma/views/selection.html:13
+msgid "Or choose them with this:"
+msgstr "Ou les choisir via :"
+
+#: templates/fir_irma/views/selection.html:13
+msgid "Choose file"
+msgstr "Choisissez un fichier"
+
+#: templates/fir_irma/views/selection.html:29
+msgid "Please select the files to scan for malwares"
+msgstr "Sélectionnez les fichiers à scanner"
+
+#: templates/fir_irma/views/selection.html:34
+msgid "Hide"
+msgstr "Masquer"
+
+#: templates/fir_irma/views/selection.html:34
+msgid "Display"
+msgstr "Afficher"
+
+#: templates/fir_irma/views/selection.html:34
+msgid "advanced settings"
+msgstr "les paramètres avancés"
+
+#: templates/fir_irma/views/selection.html:38
+msgid "Scan parameters"
+msgstr "Paramètres du scan"
+
+#: templates/fir_irma/views/selection.html:41
+msgid "You can bypass the cached results and force a new scan for the file"
+msgstr "Vous pouvez forcer le scan et éviter le cache"
+
+#: templates/fir_irma/views/selection.html:43
+msgid "Force scan"
+msgstr "Forcer"
+
+#: templates/fir_irma/views/selection.html:47
+msgid "You can select which probes to scan the file(s) with"
+msgstr "Vous pouvez sélectionner les sondes à utiliser"
+
+#: templates/fir_irma/views/upload.html:3
+msgid "The files are being uploaded..."
+msgstr "Les fichiers sont en cours de versement..."
+
+#: templates/fir_irma/views/upload.html:6
+msgid "Complete"
+msgstr "Fini"

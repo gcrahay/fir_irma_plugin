@@ -1,0 +1,4 @@
+{% load i18n %}
+{% if perms.fir_irma %}
+<li id='scan-nav'><a href="{% url 'fir_irma:ui:index' sub="" %}">{% trans "Scan" %}</a></li>
+{% endif %}

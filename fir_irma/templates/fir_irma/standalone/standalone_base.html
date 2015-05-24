@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% load i18n %}
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="irma"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{%block title%}IRMA{%endblock%}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="{% static 'irma/resources/ball.png' %}" />
+
+    <link rel="stylesheet" href="{% static 'irma/styles/combined.css' %}">
+  </head>
+  <body konami>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+
+    <!--[if lt IE 9]>
+    <script src="{% static 'irma/scripts/ie.js' %}"></script>
+    <![endif]-->
+    {% if user.is_authenticated %}
+        <ul class="list-inline"style="position: absolute; top: 0px; right: 10px;z-index: 100;">
+            <li style="color: #ddd">{{ user }}</li>
+            <li style="color: #ddd;">|</li>
+            {% if user.is_staff %}
+                <li class=""><a href="{% url 'admin:index' %}" style="color: #aaa;text-decoration: none;" target="_self">{% trans "Admin site" %}</a></li>
+                <li style="color: #ddd;">|</li>
+            {% endif %}
+            <li class=""><a href="{% url 'logout' %}" style="color: #aaa;text-decoration: none;" target="_self">{% trans "Logout" %}</a></li>
+        </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+
+    {% block custom_js %}{% endblock %}
+
+  </body>
+</html>

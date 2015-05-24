@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block header%}<h4>{% trans "Scan for malwares" %} <small>{% trans 'with IRMA' %}</small></h4>{%endblock%}
+
+{% block custom_css %}
+
+    <link rel="stylesheet" href="{% static 'irma/styles/combined.css' %}">
+    {{ block.super }}
+{% endblock%}
+
+{% block content %}
+
+<div class="container" id="top" ng-app="irma">
+  {% include "fir_irma/partial_irma.html" %}
+
+</div>
+{% endblock %}
+
+{% block custom_js %}
+    {{ block.super }}
+    {% with standalone=False %}
+        {% include "fir_irma/partial_irmajs.html" %}
+    {% endwith %}
+{% endblock %}

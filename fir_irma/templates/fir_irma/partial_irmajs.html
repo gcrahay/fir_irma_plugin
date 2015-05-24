@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+{% if standalone %}
+<script src="{% static 'irma/scripts/standalone/dependencies.js' %}"></script>
+{% else %}
+<script src="{% static 'irma/scripts/dependencies.js' %}"></script>
+{% endif %}
+<script src="{% url "fir_irma:ui:app" %}"></script>
+{% if debug %}
+    <script src="{% static 'irma/scripts/debug/controllers/selection.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/upload.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/scan.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/search.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/results.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/details.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/controllers/maintenance.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/directives/alerts.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/directives/fileTrigger.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/directives/booleanDisplay.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/directives/konami-ponies.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/models/scanModel.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/models/resultModel.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/managers/resultsManager.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/utils/bridge.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/utils/state.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/utils/alerts.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/utils/api.js' %}"></script>
+    <script src="{% static 'irma/scripts/debug/services/utils/dataservice.js' %}"></script>
+{% else %}
+<script src="{% static 'irma/scripts/combined.js' %}"></script>
+{% endif %}
