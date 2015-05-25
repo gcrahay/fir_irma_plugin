@@ -17,6 +17,8 @@ You can start an instance of this plugin as a standalone server. If the standalo
 
 # Installation
 
+**Warning: This plugin needs some features not merged in the FIR official repository. PRs will be submitted soon!**
+
 ## Prerequisites
 
 You'll need a working installation of IRMA ([IRMA docs](https://irma.readthedocs.org/en/latest/index.html))!
