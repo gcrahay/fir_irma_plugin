@@ -1,3 +1,2 @@
-django-revproxy
 django-uuidfield
 requests
