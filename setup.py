@@ -22,6 +22,7 @@ setup(
     packages=find_packages(exclude=['scripts', 'standalone', 'irma_frontend_web']),
     include_package_data=True,
     install_requires=[
+        'django>=1.7',
         'django-uuidfield>=0.5',
         'requests>=2.0'
     ],
