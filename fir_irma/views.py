@@ -51,6 +51,10 @@ def irma_probes(request):
         payload = response.json()
     except ValueError:
         return process_error(request)
+    if 'irma_probes' not in request.session and 'data' in payload:
+        if not isinstance(payload['data'], list):
+            payload['data'] = [payload['data'],]
+        request.session['irma_probes'] = payload['data']
     return JsonResponse(payload)
 
 @login_and_perm_required('fir_irma.scan_files')
@@ -99,7 +103,7 @@ def irma_scan_launch(request, scan_id=None, **kwargs):
             json_request = json.loads(request.body)
         except:
             return process_error(request, error=ERROR_CLIENT_ERROR)
-        scan.probes = json_request.get('probes', 'noprobes')
+        scan.probes = json_request.get('probes', ','.join(request.session.get('irma_probes', [])))
         if request.user.has_perm('fir_irma.can_force_scan'):
             scan.force = json_request.get('force', False)
         else:
