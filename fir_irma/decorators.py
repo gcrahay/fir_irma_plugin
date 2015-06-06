@@ -13,9 +13,8 @@ from fir_irma.utils import process_error, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED
 
 def user_is_owner_or_privileged(login_url=None, redirect_field_name=REDIRECT_FIELD_NAME):
     """
-    Decorator for views that checks that the user passes the given test,
-    redirecting to the log-in page if necessary. The test should be a callable
-    that takes the user object and returns True if the user passes.
+    Decorator for views that checks that the user is the owner of the scan or privileged,,
+    redirecting to the log-in page if necessary. The request must have a scan_id parameter.
     """
 
     def decorator(view_func):
@@ -50,9 +49,8 @@ def user_is_owner_or_privileged(login_url=None, redirect_field_name=REDIRECT_FIE
 
 def login_and_perm_required(perm, login_url=None, unprivileged_url=None,redirect_field_name=REDIRECT_FIELD_NAME):
     """
-    Decorator for views that checks that the user passes the given test,
-    redirecting to the log-in page if necessary. The test should be a callable
-    that takes the user object and returns True if the user passes.
+    Decorator for views that checks that the user is authenticated and has permission,
+    redirecting to the log-in page if necessary.
     """
 
     def decorator(view_func):
