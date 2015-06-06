@@ -1,5 +1,4 @@
 import json
-import requests
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -7,22 +6,8 @@ from django.http import JsonResponse
 from fir_irma.decorators import user_is_owner_or_privileged, login_and_perm_required
 from fir_irma.settings import settings
 from fir_irma.models import IrmaScan
-from fir_irma.utils import process_error, ERROR_WRONG_METHOD, ERROR_CLIENT_ERROR, ERROR_NOT_FOUND
-
-
-def create_api_url(*args):
-    def append_part(url, part):
-        if not part == "" and part is not None:
-            if url[-1] != '/':
-                url += '/'
-            if part[0] == '/':
-                part = part[1:]
-            url += part
-        return url
-    url = settings.IRMA_BASE_URL
-    for part in args:
-        url = append_part(url, part)
-    return url
+from fir_irma.utils import process_error, ERROR_NOT_FOUND
+from fir_irma import api
 
 
 @login_and_perm_required('fir_irma.scan_files')
@@ -45,30 +30,30 @@ def irma_view(request, name="selection"):
 
 @login_and_perm_required('fir_irma.scan_files')
 def irma_probes(request):
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    response = requests.get(create_api_url('/api/v1/probes'), headers=headers)
     try:
-        payload = response.json()
-    except ValueError:
-        return process_error(request)
-    if 'irma_probes' not in request.session and 'data' in payload:
-        if not isinstance(payload['data'], list):
-            payload['data'] = [payload['data'],]
-        request.session['irma_probes'] = payload['data']
-    return JsonResponse(payload)
+        code, payload = api.get_probes()
+        if 'irma_probes' not in request.session and 'data' in payload:
+            if not isinstance(payload['data'], list):
+                payload['data'] = [payload['data'],]
+            request.session['irma_probes'] = payload['data']
+    except api.APIError as error:
+        code = error.code
+        payload = error.content
+    return JsonResponse(payload, status=code)
+
 
 @login_and_perm_required('fir_irma.scan_files')
 def irma_scan_new(request):
     if request.method == 'POST':
-        headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-        response = requests.post(create_api_url('/api/v1/scans'), headers=headers)
         try:
-            payload = response.json()
-        except ValueError:
-            return process_error(request)
-        IrmaScan.objects.create(irma_scan=payload['id'], user=request.user)
-        return JsonResponse(payload)
-    return process_error(request, error=ERROR_WRONG_METHOD)
+            code, payload = api.new_scan()
+            IrmaScan.objects.create(irma_scan=payload['id'], user=request.user)
+        except api.APIError as error:
+            code = error.code
+            payload = error.content
+    else:
+        code, payload = api.APIError.wrong_method()
+    return JsonResponse(payload, status=code)
 
 @user_is_owner_or_privileged()
 def irma_scan_upload(request, **kwargs):
@@ -77,23 +62,22 @@ def irma_scan_upload(request, **kwargs):
         scan = kwargs.get('scan')
         try:
             f = request.FILES['file']
+            code, payload = api.upload_files(scan_id, files={'file':f})
+            try:
+                from fir_artifacts.files import handle_uploaded_file
+                import fir_artifacts.models
+                handle_uploaded_file(f, "IRMA scanned file", scan)
+            except ImportError:
+                pass
         except KeyError:
-            return process_error(request, error=ERROR_CLIENT_ERROR)
-        upload_file = {'file': f}
-        response = requests.post(create_api_url('/api/v1/scans/', scan_id, '/files'), files=upload_file)
-        try:
-            payload = response.json()
-        except ValueError:
-            return process_error(request)
-        try:
-            from fir_artifacts.files import handle_uploaded_file
-            import fir_artifacts.models
-            handle_uploaded_file(f, "IRMA scanned file", scan)
-        except ImportError:
-            print "No fir artifact"
-            pass
-        return JsonResponse(payload)
-    return process_error(request, error=ERROR_WRONG_METHOD)
+            code, payload = api.APIError.client_error()
+        except api.APIError as error:
+            code = error.code
+            payload = error.content
+    else:
+        code, payload = api.APIError.wrong_method()
+    return JsonResponse(payload, status=code)
+
 
 @user_is_owner_or_privileged()
 def irma_scan_launch(request, scan_id=None, **kwargs):
@@ -101,76 +85,65 @@ def irma_scan_launch(request, scan_id=None, **kwargs):
         scan = kwargs.get('scan')
         try:
             json_request = json.loads(request.body)
-        except:
-            return process_error(request, error=ERROR_CLIENT_ERROR)
-        scan.probes = json_request.get('probes', ','.join(request.session.get('irma_probes', [])))
-        if request.user.has_perm('fir_irma.can_force_scan'):
-            scan.force = json_request.get('force', False)
-        else:
-            scan.force = False
-        scan.save()
-        json_request['force'] = scan.force
-        headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-        response = requests.post(create_api_url('/api/v1/scans/', scan_id, '/launch'), headers=headers, json=json_request)
-        try:
-            payload = response.json()
+            scan.probes = json_request.get('probes', ','.join(request.session.get('irma_probes', [])))
+            if request.user.has_perm('fir_irma.can_force_scan'):
+                scan.force = json_request.get('force', False)
+            else:
+                scan.force = False
+            scan.save()
+            code, payload = api.launch_scan(scan_id, force=scan.force, probes=scan.probes)
         except ValueError:
-            return process_error(request)
-        return JsonResponse(payload)
-    return process_error(request, error=ERROR_WRONG_METHOD)
+            code, payload = api.APIError.client_error()
+        except api.APIError as error:
+            code = error.code
+            payload = error.content
+    else:
+        code, payload = api.APIError.wrong_method()
+    return JsonResponse(payload, status=code)
 
 
 @user_is_owner_or_privileged()
 def irma_scan_generic(request, scan_id=None, tail="", **kwargs):
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    response = requests.get(create_api_url('/api/v1/scans/', scan_id, tail), headers=headers)
     try:
-        payload = response.json()
-    except ValueError:
-        return process_error(request)
-    return JsonResponse(payload)
+        code, payload = api.make_api_call(['/api/v1/scans/', scan_id, tail], method=request.method)
+    except api.APIError as error:
+        code = error.code
+        payload = error.content
+    return JsonResponse(payload, status=code)
+
 
 @login_and_perm_required('fir_irma.scan_files')
 def irma_search(request):
-    query = dict()
-    name = request.GET.get('name', None)
-    if name is None:
-        hash_ = request.GET.get('hash', None)
-        if hash_ is None:
-            return process_error(request, error=ERROR_CLIENT_ERROR)
-        query['hash'] = hash_
-    else:
-        query['name'] = name
-    query['offset'] = request.GET.get('offset', 0)
-    query['limit'] = request.GET.get('limit', 25)
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    response = requests.get(create_api_url('/api/v1/search/files'), headers=headers, params=query)
     try:
-        payload = response.json()
-    except ValueError:
-        return process_error(request)
-    if not 'items' in payload:
-        return process_error(request)
-    if not request.user.has_perm('fir_irma.read_all_results'):
-        items = []
-        for result in payload['items']:
-            if 'scan_id' in result:
-                try:
-                    scan = IrmaScan.objects.get(irma_scan=result['scan_id'], user=request.user)
-                    items.append(result)
-                except IrmaScan.DoesNotExist:
-                    pass
-        updated_payload = {
-            'items': items,
-            'limit': payload.get('limit', 25),
-            'offset': payload.get('offset', 0),
-            'original_total': payload.get('total', 0),
-            'total': len(items)
-        }
-        payload = updated_payload
-    else:
-        payload['original_total'] = payload.get('total', 0)
-    return JsonResponse(payload)
+        code, payload = api.search(file_hash=request.GET.get('hash', None),
+                   file_name=request.GET.get('name', None),
+                   offset=request.GET.get('offset', 0),
+                   limit=request.GET.get('limit', 25))
+        original_count = len(payload['items'])
+        if not request.user.has_perm('fir_irma.read_all_results'):
+            items = []
+            for result in payload['items']:
+                if 'scan_id' in result:
+                    try:
+                        scan = IrmaScan.objects.get(irma_scan=result['scan_id'], user=request.user)
+                        items.append(result)
+                    except IrmaScan.DoesNotExist:
+                        pass
+            updated_payload = {
+                'items': items,
+                'limit': payload.get('limit', 25),
+                'offset': payload.get('offset', 0),
+                'original_count': original_count,
+                'total': len(items)
+            }
+            payload = updated_payload
+        else:
+            payload['original_total'] = original_count
+    except api.APIError as error:
+        code = error.code
+        payload = error.content
+    return JsonResponse(payload, status=code)
+
 
 def not_found(request):
     return process_error(request, error=ERROR_NOT_FOUND)
