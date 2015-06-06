@@ -24,9 +24,9 @@ except ImportError:
             return cls
         return model_linker
     class File:
-        pass
+        _fake = True
     class Artifact:
-        pass
+        _fake = True
 
 
 @link_to(File)
@@ -55,3 +55,9 @@ class IrmaScan(models.Model):
         from django.core.urlresolvers import reverse
         from uuid import UUID
         return reverse('fir_irma:ui:details', args=[str(UUID(str(self.irma_scan)))])
+
+
+if settings.IRMA_SCAN_FIR_FILES and not hasattr(File, '_fake'):
+    from django.db.models.signals import post_save
+    from fir_irma.utils import fir_files_postsave
+    post_save.connect(fir_files_postsave, sender=File, dispatch_uid='fir_irma_file_scan')
