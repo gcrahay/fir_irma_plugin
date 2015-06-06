@@ -1,6 +1,7 @@
 from django.db import models
-from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+
+from fir_irma.settings import settings
 
 try:
     User = settings.AUTH_USER_MODEL
@@ -26,6 +27,7 @@ except ImportError:
         pass
     class Artifact:
         pass
+
 
 @link_to(File)
 @link_to(Artifact)
@@ -53,4 +55,3 @@ class IrmaScan(models.Model):
         from django.core.urlresolvers import reverse
         from uuid import UUID
         return reverse('fir_irma:ui:details', args=[str(UUID(str(self.irma_scan)))])
-
