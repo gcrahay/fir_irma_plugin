@@ -1,5 +1,8 @@
 import requests
 
+import logging
+logger = logging.getLogger(__name__)
+
 from fir_irma.settings import settings
 
 DEFAULT_HEADERS = {'Content-type': 'application/json', 'Accept': 'application/json'}
@@ -14,6 +17,7 @@ class APIError(Exception):
 		else:
 			self.type = type
 			self.message = message
+		logger.error("IRMA API error - %s - %s", self.type, self.message)
 
 	@property
 	def content(self):

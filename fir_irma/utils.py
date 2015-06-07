@@ -1,8 +1,11 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseBadRequest
+
 from fir_irma import api
 from fir_irma.models import IrmaScan
-
 from fir_irma.settings import settings
 
 ERROR_NOT_FOUND = 1
@@ -65,11 +68,9 @@ def scan_file(file_object, user):
                 a.save()
             a.relations.add(scan)
     except api.APIError as error:
-        # TODO: Logging
-        pass
-    except:
-        # TODO: Logging
-        pass
+        logger.error("IRMA automatic scan error - %s - %s", error.type, error.message)
+    except Exception as error:
+        logger.error("IRMA automatic scan error - generic_error - %s", str(error))
 
 
 def fir_files_postsave(sender, **kwargs):
@@ -90,3 +91,4 @@ def fir_files_postsave(sender, **kwargs):
                 if user is not None and isinstance(user, User) and user.has_perm('fir_irma.scan_files'):
                     scan_file(instance, user)
                     return
+            logger.error("IRMA automatic scan error - user_error - No user able to scan")
