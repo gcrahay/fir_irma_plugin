@@ -70,11 +70,12 @@ Configure settings variables and user permissions (see **Configuration**). Don't
 * *IRMA_BASE_URL*: Base URL of your IRMA frontend, default: *http://127.0.0.1*
 * *IRMA_HAS_UI*: Add user interface URLs (Angular application), default: `True`
 * *IRMA_IS_STANDALONE*: Use as a standalone server (outside FIR), default: `False`
+* *IRMA_ANONYMOUS_SCAN*: Anonymous users can scan files, requires `IRMA_IS_STANDALONE`, default: `False`
 * *IRMA_REFRESH_MS*: UI refresh timeout during scan in ms, default: *3000*
 
 ## User permissions
 
-* *scan_files*: User can submit files. This is the minimal permission.
+* *scan_files*: User can submit files. This is the minimal permission. Overriden by `IRMA_ANONYMOUS_SCAN` in a standalone server.
 * *read_all_results*: Scan results are not filtered. Without this permission, an user can only see results of his own scans.
 * *can_force_scan*: User can bypass the scan cache and force a new scan.
 

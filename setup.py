@@ -13,7 +13,7 @@ with open('README.md') as readme_file:
 
 setup(
     name='fir_irma',
-    version='0.1.0',
+    version='0.2.0',
     description="Plugin for FIR (Fast Incident Response) integrating IRMA",
     long_description=readme,
     author="Gaetan Crahay",
@@ -24,7 +24,8 @@ setup(
     install_requires=[
         'django>=1.7',
         'django-uuidfield>=0.5',
-        'requests>=2.0'
+        'requests>=2.0',
+        'django-ipware'
     ],
     license="Apache 2.0, see LICENSE",
     zip_safe=False,

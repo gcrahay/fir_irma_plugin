@@ -7,8 +7,10 @@
     <li class="{$(state.location=='upload')?'active':''$}">{%  trans "Upload" %}</li>
     <li>&gt;</li>
     <li class="{$(state.location=='scan')?'active':''$}">{%  trans "Scan" %}</li>
+    {% if user.is_authenticated %}
     <li>|</li>
     <li class="{$(state.location=='search')?'active':''$}"><a href="{% url "fir_irma:ui:index" sub="search" %}">{%  trans "Search" %}</a></li>
+    {% endif %}
 </ul>
 
 <div class="spinner main" ng-if="state.settings.loading">

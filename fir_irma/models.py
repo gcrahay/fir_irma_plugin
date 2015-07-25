@@ -33,11 +33,14 @@ except ImportError:
 @link_to(Artifact)
 class IrmaScan(models.Model):
     irma_scan = UUIDField(verbose_name=_("scan ID"), help_text=_("Internal ID in IRMA"))
-    user = models.ForeignKey(User, verbose_name=_("user"), help_text=_("User who created this scan"))
+    user = models.ForeignKey(User, verbose_name=_("user"), help_text=_("User who created this scan"),
+                             null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, verbose_name=_("creation date"))
     probes = models.CharField(max_length=200, null=True, blank=True, verbose_name=_("probes"),
                               help_text=_("Probes used by this scan"))
     force = models.BooleanField(default=False, verbose_name=_("force scan"), help_text=_("Bypass the cache"))
+    client_ip = models.GenericIPAddressField(verbose_name=_("Client IP address"), unpack_ipv4=True,
+                                             null=True, blank=True, help_text=_("The IP address of the requesting user"))
 
     def __unicode__(self):
         return _(u"Scan launched on {date} by {user}").format(date=self.date, user=self.user)

@@ -1,4 +1,5 @@
 import json
+from ipware.ip import get_ip
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -45,9 +46,13 @@ def irma_probes(request):
 @login_and_perm_required('fir_irma.scan_files')
 def irma_scan_new(request):
     if request.method == 'POST':
+        client_ip = get_ip(request)
         try:
             code, payload = api.new_scan()
-            IrmaScan.objects.create(irma_scan=payload['id'], user=request.user)
+            if request.user.is_anonymous():
+                IrmaScan.objects.create(irma_scan=payload['id'], client_ip=client_ip)
+            else:
+                IrmaScan.objects.create(irma_scan=payload['id'], user=request.user, client_ip=client_ip)
         except api.APIError as error:
             code = error.code
             payload = error.content

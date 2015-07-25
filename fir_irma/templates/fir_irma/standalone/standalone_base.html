@@ -34,6 +34,10 @@
             {% endif %}
             <li class=""><a href="{% url 'logout' %}" style="color: #aaa;text-decoration: none;" target="_self">{% trans "Logout" %}</a></li>
         </ul>
+    {% else %}
+        <ul class="list-inline"style="position: absolute; top: 0px; right: 10px;z-index: 100;">
+            <li class=""><a href="{% url 'login' %}" style="color: #aaa;text-decoration: none;" target="_self">{% trans "Login" %}</a></li>
+        </ul>
     {% endif %}
 
     {% block content %}{% endblock %}

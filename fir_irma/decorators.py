@@ -1,5 +1,6 @@
 from functools import wraps
 from uuid import UUID
+from ipware.ip import get_ip
 
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -31,6 +32,16 @@ def user_is_owner_or_privileged(login_url=None, redirect_field_name=REDIRECT_FIE
                             request.user.has_perm('fir_irma.read_all_results'):
                         kwargs['scan'] = scan
                         return view_func(request, *args, **kwargs)
+            elif settings.IRMA_ANONYMOUS_SCAN and settings.IRMA_IS_STANDALONE:
+                if 'scan_id' in kwargs:
+                    scan_id = UUID(kwargs.get('scan_id'))
+                    client_ip = get_ip(request)
+                    try:
+                        scan = IrmaScan.objects.get(irma_scan=scan_id, client_ip=client_ip)
+                        kwargs['scan'] = scan
+                        return view_func(request, *args, **kwargs)
+                    except IrmaScan.DoesNotExist:
+                        return process_error(request, error=ERROR_NOT_FOUND)
             path = request.build_absolute_uri()
             resolved_login_url = resolve_url(login_url or settings.LOGIN_URL)
             # If the login url is the same scheme and net location then just
@@ -46,6 +57,7 @@ def user_is_owner_or_privileged(login_url=None, redirect_field_name=REDIRECT_FIE
         _wrapped_view.csrf_exempt = True
         return _wrapped_view
     return decorator
+
 
 def login_and_perm_required(perm, login_url=None, unprivileged_url=None,redirect_field_name=REDIRECT_FIELD_NAME):
     """
@@ -66,6 +78,8 @@ def login_and_perm_required(perm, login_url=None, unprivileged_url=None,redirect
                 if unprivileged_url is not None:
                     return redirect(unprivileged_url)
                 return process_error(request, error=ERROR_UNAUTHORIZED)
+            elif settings.IRMA_ANONYMOUS_SCAN and settings.IRMA_IS_STANDALONE:
+                return view_func(request, *args, **kwargs)
             else:
                 path = request.build_absolute_uri()
                 resolved_login_url = resolve_url(login_url or settings.LOGIN_URL)
