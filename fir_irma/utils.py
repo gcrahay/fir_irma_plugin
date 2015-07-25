@@ -14,6 +14,7 @@ ERROR_CLIENT_ERROR = 3
 ERROR_WRONG_METHOD = 4
 ERROR_UNAUTHORIZED = 5
 
+
 def process_error(request, error=ERROR_SERVER_ERROR, message=None):
     if request.is_ajax():
         if error == ERROR_NOT_FOUND:
@@ -46,7 +47,9 @@ def process_error(request, error=ERROR_SERVER_ERROR, message=None):
         elif error == ERROR_UNAUTHORIZED:
             raise PermissionDenied
 
+
 def scan_file(file_object, user):
+    logger.debug("Scanning uploaded file %s", file_object.getfilename())
     try:
         from fir_artifacts.models import Artifact
         from fir_artifacts import Hash
@@ -74,21 +77,20 @@ def scan_file(file_object, user):
 
 
 def fir_files_postsave(sender, **kwargs):
-    if kwargs.get('created', False):
-        from django.contrib.contenttypes.models import ContentType
-        from fir_irma.models import IrmaScan
-        irmascan_type = ContentType.objects.get_for_model(IrmaScan)
-        instance = kwargs.get('instance')
-        if not instance.content_type == irmascan_type:
-            try:
-                from django.contrib.auth import get_user_model
-                User = get_user_model()
-            except ImportError:
-                from django.contrib.auth.models import User
-            related = instance.get_related()
-            for field in settings.IRMA_SCAN_FIR_FILES_USER_FIELDS:
-                user = getattr(related, field)
-                if user is not None and isinstance(user, User) and user.has_perm('fir_irma.scan_files'):
-                    scan_file(instance, user)
-                    return
-            logger.error("IRMA automatic scan error - user_error - No user able to scan")
+    from django.contrib.contenttypes.models import ContentType
+    from fir_irma.models import IrmaScan
+    irmascan_type = ContentType.objects.get_for_model(IrmaScan)
+    instance = kwargs.get('instance')
+    if not instance.content_type == irmascan_type and instance.hashes.count() > 0:
+        try:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+        except ImportError:
+            from django.contrib.auth.models import User
+        related = instance.get_related()
+        for field in settings.IRMA_SCAN_FIR_FILES_USER_FIELDS:
+            user = getattr(related, field)
+            if user is not None and isinstance(user, User) and user.has_perm('fir_irma.scan_files'):
+                scan_file(instance, user)
+                return
+        logger.error("IRMA automatic scan error - user_error - No user able to scan")
