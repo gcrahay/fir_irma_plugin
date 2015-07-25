@@ -20,23 +20,23 @@ def process_error(request, error=ERROR_SERVER_ERROR, message=None):
         if error == ERROR_NOT_FOUND:
             if message is None:
                 message = 'Object not found'
-            return JsonResponse({'type':'invalid_request_error', 'message': message}, status=404)
+            return JsonResponse({'type': 'invalid_request_error', 'message': message}, status=404)
         elif error == ERROR_SERVER_ERROR:
             if message is None:
                 message = 'Server error'
-            return JsonResponse({'type':'api_error', 'message': message}, status=500)
+            return JsonResponse({'type': 'api_error', 'message': message}, status=500)
         elif error == ERROR_CLIENT_ERROR:
             if message is None:
                 message = 'Invalid request'
-            return JsonResponse({'type':'invalid_request_error', 'message': message}, status=400)
+            return JsonResponse({'type': 'invalid_request_error', 'message': message}, status=400)
         elif error == ERROR_WRONG_METHOD:
             if message is None:
                 message = 'Invalid method'
-            return JsonResponse({'type':'invalid_request_error', 'message': message}, status=405)
+            return JsonResponse({'type': 'invalid_request_error', 'message': message}, status=405)
         elif error == ERROR_UNAUTHORIZED:
             if message is None:
                 message = 'Unauthorized'
-            return JsonResponse({'type':'invalid_request_error', 'message': message}, status=403)
+            return JsonResponse({'type': 'invalid_request_error', 'message': message}, status=403)
     else:
         if error == ERROR_NOT_FOUND:
             raise Http404()
@@ -56,7 +56,7 @@ def scan_file(file_object, user):
         code, payload = api.new_scan()
         scan_id = payload['id']
         scan = IrmaScan.objects.create(irma_scan=scan_id, user=user)
-        api.upload_files(scan_id, files={'file':file_object.file})
+        api.upload_files(scan_id, files={'file': file_object.file})
         force = user.has_perm('fir_irma.can_force_scan')
         api.launch_scan(scan_id, force=force)
         hashes = file_object.get_hashes()

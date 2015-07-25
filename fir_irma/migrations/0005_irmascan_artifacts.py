@@ -23,6 +23,7 @@ except ImportError:
         ('fir_irma', '0004_auto_20150524_0842'),
     ]
 
+
 class Migration(migrations.Migration):
 
     dependencies = deps

@@ -18,7 +18,9 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='irmascan',
-            options={'verbose_name': 'IRMA scan', 'verbose_name_plural': 'IRMA scans', 'permissions': (('scan_files', 'Scan files'), ('read_all_results', 'Read all scan results'), ('can_force_scan', 'Can force scan'))},
+            options={'verbose_name': 'IRMA scan', 'verbose_name_plural': 'IRMA scans',
+                     'permissions': (('scan_files', 'Scan files'), ('read_all_results', 'Read all scan results'),
+                                     ('can_force_scan', 'Can force scan'))},
         ),
         migrations.AlterField(
             model_name='irmascan',
@@ -38,11 +40,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='irmascan',
             name='probes',
-            field=models.CharField(help_text='Probes used by this scan', max_length=200, null=True, verbose_name='probes', blank=True),
+            field=models.CharField(help_text='Probes used by this scan', max_length=200, null=True,
+                                   verbose_name='probes', blank=True),
         ),
         migrations.AlterField(
             model_name='irmascan',
             name='user',
-            field=models.ForeignKey(verbose_name='user', to=settings.AUTH_USER_MODEL, help_text='User who created this scan'),
+            field=models.ForeignKey(verbose_name='user', to=settings.AUTH_USER_MODEL,
+                                    help_text='User who created this scan'),
         ),
     ]

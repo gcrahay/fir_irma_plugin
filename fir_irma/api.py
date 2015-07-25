@@ -8,14 +8,15 @@ from fir_irma.settings import settings
 DEFAULT_HEADERS = {'Content-type': 'application/json', 'Accept': 'application/json'}
 DEFAULT_ERROR_CODE = 402
 
+
 class APIError(Exception):
-	def __init__(self, code=DEFAULT_ERROR_CODE, content=None, type='proxy_error', message='API proxy error'):
+	def __init__(self, code=DEFAULT_ERROR_CODE, content=None, error_type='proxy_error', message='API proxy error'):
 		self.code = code
-		if isinstance(content, dict) and 'type' in content and 'message' in content:
-			self.type = content.get('type', 'proxy_error')
+		if isinstance(content, dict) and 'error_type' in content and 'message' in content:
+			self.type = content.get('error_type', 'proxy_error')
 			self.message = content.get('message', 'API proxy error')
 		else:
-			self.type = type
+			self.type = error_type
 			self.message = message
 		logger.error("IRMA API error - %s - %s", self.type, self.message)
 
@@ -96,18 +97,20 @@ def new_scan():
 
 
 def launch_scan(scan_id, force=False, probes=None):
-	json_request = {'force':force}
+	json_request = {'force': force}
 	if probes is not None:
 		json_request['probes'] = probes
 	return make_api_call(['/api/v1/scans/', scan_id, '/launch'], method='POST', json=json_request)
 
 
-def upload_files(scan_id, files=[]):
+def upload_files(scan_id, files=None):
+	if files is None:
+		files = list()
 	return make_api_call(['/api/v1/scans/', scan_id, '/files'], method='POST', files=files, default_headers=False)
 
 
 def search(file_hash=None, file_name=None, offset=0, limit=25):
-	query = {'offset':offset, 'limit':limit}
+	query = {'offset': offset, 'limit': limit}
 	if file_name is not None:
 		query['name'] = file_name
 	elif file_hash is not None:
@@ -115,6 +118,6 @@ def search(file_hash=None, file_name=None, offset=0, limit=25):
 	else:
 		return APIError.client_error(message='Missing required parameter hash or name')
 	code, payload = make_api_call('/api/v1/search/files', params=query)
-	if not 'items' in payload:
+	if 'items' not in payload:
 		raise APIError(DEFAULT_ERROR_CODE, message='The API response is invalid')
 	return code, payload

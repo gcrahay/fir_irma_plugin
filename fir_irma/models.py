@@ -23,8 +23,10 @@ except ImportError:
         def model_linker(cls):
             return cls
         return model_linker
+
     class File:
         _fake = True
+
     class Artifact:
         _fake = True
 
@@ -40,7 +42,8 @@ class IrmaScan(models.Model):
                               help_text=_("Probes used by this scan"))
     force = models.BooleanField(default=False, verbose_name=_("force scan"), help_text=_("Bypass the cache"))
     client_ip = models.GenericIPAddressField(verbose_name=_("Client IP address"), unpack_ipv4=True,
-                                             null=True, blank=True, help_text=_("The IP address of the requesting user"))
+                                             null=True, blank=True,
+                                             help_text=_("The IP address of the requesting user"))
 
     def __unicode__(self):
         return _(u"Scan launched on {date} by {user}").format(date=self.date, user=self.user)

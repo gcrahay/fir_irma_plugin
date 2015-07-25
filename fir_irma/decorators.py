@@ -59,7 +59,7 @@ def user_is_owner_or_privileged(login_url=None, redirect_field_name=REDIRECT_FIE
     return decorator
 
 
-def login_and_perm_required(perm, login_url=None, unprivileged_url=None,redirect_field_name=REDIRECT_FIELD_NAME):
+def login_and_perm_required(perm, login_url=None, unprivileged_url=None, redirect_field_name=REDIRECT_FIELD_NAME):
     """
     Decorator for views that checks that the user is authenticated and has permission,
     redirecting to the log-in page if necessary.

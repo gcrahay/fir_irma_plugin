@@ -17,17 +17,21 @@ def irma_index(request, sub=''):
         return render(request, 'fir_irma/standalone/interface.html')
     return render(request, 'fir_irma/fir_scan.html')
 
+
 @login_and_perm_required('fir_irma.scan_files')
 def irma_app(request):
     return render(request, 'fir_irma/irma.js', {'refresh': settings.IRMA_REFRESH_MS})
+
 
 @user_is_owner_or_privileged()
 def irma_redirect_index(request, **kwargs):
     return irma_index(request)
 
+
 @login_and_perm_required('fir_irma.scan_files')
 def irma_view(request, name="selection"):
     return render(request, 'fir_irma/views/{0}.html'.format(name))
+
 
 @login_and_perm_required('fir_irma.scan_files')
 def irma_probes(request):
@@ -35,7 +39,7 @@ def irma_probes(request):
         code, payload = api.get_probes()
         if 'irma_probes' not in request.session and 'data' in payload:
             if not isinstance(payload['data'], list):
-                payload['data'] = [payload['data'],]
+                payload['data'] = [payload['data'], ]
             request.session['irma_probes'] = payload['data']
     except api.APIError as error:
         code = error.code
@@ -60,6 +64,7 @@ def irma_scan_new(request):
         code, payload = api.APIError.wrong_method()
     return JsonResponse(payload, status=code)
 
+
 @user_is_owner_or_privileged()
 def irma_scan_upload(request, **kwargs):
     if request.method == 'POST':
@@ -67,7 +72,7 @@ def irma_scan_upload(request, **kwargs):
         scan = kwargs.get('scan')
         try:
             f = request.FILES['file']
-            code, payload = api.upload_files(scan_id, files={'file':f})
+            code, payload = api.upload_files(scan_id, files={'file': f})
             try:
                 from fir_artifacts.files import handle_uploaded_file
                 import fir_artifacts.models
@@ -121,9 +126,9 @@ def irma_scan_generic(request, scan_id=None, tail="", **kwargs):
 def irma_search(request):
     try:
         code, payload = api.search(file_hash=request.GET.get('hash', None),
-                   file_name=request.GET.get('name', None),
-                   offset=request.GET.get('offset', 0),
-                   limit=request.GET.get('limit', 25))
+                                   file_name=request.GET.get('name', None),
+                                   offset=request.GET.get('offset', 0),
+                                   limit=request.GET.get('limit', 25))
         original_count = len(payload['items'])
         if not request.user.has_perm('fir_irma.read_all_results'):
             items = []

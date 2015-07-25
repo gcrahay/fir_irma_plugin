@@ -9,6 +9,7 @@ try:
 except ImportError:
     from uuidfield import UUIDField
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

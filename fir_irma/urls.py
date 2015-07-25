@@ -15,7 +15,8 @@ api_urlpatterns = patterns('',
 common_urlpatterns = patterns('',
     url(r'^(?P<sub>selection|upload|search|maintenance|)$', 'fir_irma.views.irma_index', name='index'),
     url(r'^scan/(?P<scan_id>[a-zA-Z0-9\-]+)(?:/.*)?$', 'fir_irma.views.irma_redirect_index', name='details'),
-    url(r'^views/(?P<name>maintenance|selection|search|details|scan|upload)\.html$', 'fir_irma.views.irma_view', name='view'),
+    url(r'^views/(?P<name>maintenance|selection|search|details|scan|upload)\.html$', 'fir_irma.views.irma_view',
+        name='view'),
     url(r'^js/irma.js$', 'fir_irma.views.irma_app', name='app'),
 )
 

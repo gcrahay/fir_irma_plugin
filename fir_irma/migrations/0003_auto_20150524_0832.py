@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='irmascan',
-            options={'permissions': (('scan_files', 'Scan files'), ('read_all_results', 'Read all scan results'), ('can_force_scan', 'Can force scan'))},
+            options={'permissions': (('scan_files', 'Scan files'), ('read_all_results', 'Read all scan results'),
+                                     ('can_force_scan', 'Can force scan'))},
         ),
     ]
