@@ -56,7 +56,10 @@ Configure settings variables and user permissions (see **Configuration**).
 
 You have a demo Django project in [this repository](https://github.com/gcrahay/fir_irma_plugin/tree/master/standalone).
 
-If you want the server to add artifacts in your FIR database, configure *DATABASES* variable in *settings.py* accordingly.
+If you want the server to add artifacts in your FIR database, configure *DATABASES* variable in *settings.py* accordingly. 
+Make sure that `incidents` and `fir_artifacts` are in your `INSTALLED_APPS`. 
+The `SECRET_KEY` parameters should be the same as in your FIR settings if you share the database.
+
 
 Configure settings variables and user permissions (see **Configuration**). Don't forget to set the *IRMA_IS_STANDALONE* to `True`.
 
