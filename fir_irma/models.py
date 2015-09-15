@@ -44,6 +44,8 @@ class IrmaScan(models.Model):
     client_ip = models.GenericIPAddressField(verbose_name=_("Client IP address"), unpack_ipv4=True,
                                              null=True, blank=True,
                                              help_text=_("The IP address of the requesting user"))
+    comment = models.TextField(verbose_name=_("Comment"), help_text=_("Additional data about the scan"),
+                               null=True, blank=True)
 
     def __unicode__(self):
         return _(u"Scan launched on {date} by {user}").format(date=self.date, user=self.user)
