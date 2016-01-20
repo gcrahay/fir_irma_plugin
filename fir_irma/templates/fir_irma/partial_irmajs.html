@@ -5,7 +5,7 @@
 {% else %}
 <script src="{% static 'irma/scripts/dependencies.js' %}"></script>
 {% endif %}
-<script src="{% url "fir_irma:ui:app" %}"></script>
+<script src="{% url "irma:ui:app" %}"></script>
 {% if debug %}
     <script src="{% static 'irma/scripts/debug/controllers/selection.js' %}"></script>
     <script src="{% static 'irma/scripts/debug/controllers/upload.js' %}"></script>

@@ -21,7 +21,7 @@
     <div class="row" id="results">
         <table ng-table="vm.tableParams" class="table table-bordered">
             <tr ng-repeat="item in $data">
-                <td data-title="'{% trans 'Name' %}'"><a href="{% url "fir_irma:ui:index" sub="" %}scan/{$item.scan_id$}/file/{$item.result_id$}">{$item.name$}</a></td>
+                <td data-title="'{% trans 'Name' %}'"><a href="{% url "irma:ui:index" sub="" %}scan/{$item.scan_id$}/file/{$item.result_id$}">{$item.name$}</a></td>
                 <td data-title="'{% trans 'Last seen' %}'">{$item.file_infos.timestamp_last_scan | amDateFormat:'lll'$}</td>
                 <td data-title="'{% trans 'SHA256' %}'">{$item.file_infos.sha256$}</td>
                 <td data-title="'{% trans 'Size' %}'">{$item.file_infos.size$}</td>

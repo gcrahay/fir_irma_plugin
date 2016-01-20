@@ -40,7 +40,7 @@ Add *fir_irma* in *$FIR_HOME/fir/config/installed_apps.txt* as stated in [FIR pl
 Add this line in your *urlpatterns* list in *$FIR_HOME/fir/urls.py*:
 
 ```python
-url(r'^irma/', include('fir_irma.urls', namespace='fir_irma')),
+url(r'^irma/', include('fir_irma.urls', namespace='irma')),
 
 ```
 

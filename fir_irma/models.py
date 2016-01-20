@@ -62,7 +62,7 @@ class IrmaScan(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         from uuid import UUID
-        return reverse('fir_irma:ui:details', args=[str(UUID(str(self.irma_scan)))])
+        return reverse('irma:ui:details', args=[str(UUID(str(self.irma_scan)))])
 
 
 if settings.IRMA_SCAN_FIR_FILES and not hasattr(File, '_fake'):

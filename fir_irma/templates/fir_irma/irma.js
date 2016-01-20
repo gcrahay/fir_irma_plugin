@@ -15,8 +15,8 @@ angular.module('irma', [
 ])
   .constant('constants', {
     fakeDelay: 0,
-    baseApi: '{% url "fir_irma:api:base" %}'.slice(0, - 1),
-    baseUi: '{% url "fir_irma:ui:index" sub="" %}',
+    baseApi: '{% url "irma:api:base" %}'.slice(0, - 1),
+    baseUi: '{% url "irma:ui:index" sub="" %}',
     speed: 1500,
     refresh: parseInt('{{refresh}}'),
     forceScanDefault: ( '{{ perms.fir_irma.can_force_scan|yesno:"true,false" }}' == "true"),
@@ -42,8 +42,8 @@ angular.module('irma', [
     $locationProvider.html5Mode(true);
 
     $routeProvider
-      .when('{% url "fir_irma:ui:index" sub="selection" %}', {
-        templateUrl: '{% url "fir_irma:ui:view" name="selection" %}',
+      .when('{% url "irma:ui:index" sub="selection" %}', {
+        templateUrl: '{% url "irma:ui:view" name="selection" %}',
         controller: 'SelectionCtrl',
         controllerAs: 'vm',
         location: 'selection',
@@ -51,16 +51,16 @@ angular.module('irma', [
           maintenance: ['state', function(state){ return state.pingApi();}]
         }
       })
-      .when('{% url "fir_irma:ui:index" sub="upload" %}', {
-        templateUrl: '{% url "fir_irma:ui:view" name="upload" %}',
+      .when('{% url "irma:ui:index" sub="upload" %}', {
+        templateUrl: '{% url "irma:ui:view" name="upload" %}',
         controller: 'UploadCtrl',
         location: 'upload',
         resolve: {
           maintenance: ['state', function(state){ return state.pingApi();}]
         }
       })
-      .when('{% url "fir_irma:ui:index" sub="" %}scan/:scan', {
-        templateUrl: '{% url "fir_irma:ui:view" name="scan" %}',
+      .when('{% url "irma:ui:index" sub="" %}scan/:scan', {
+        templateUrl: '{% url "irma:ui:view" name="scan" %}',
         controller: 'ScanCtrl',
         controllerAs: 'vm',
         location: 'scan',
@@ -68,8 +68,8 @@ angular.module('irma', [
           maintenance: ['state', function(state){ return state.pingApi();}]
         }
       })
-      .when('{% url "fir_irma:ui:index" sub="" %}scan/:scanId/file/:fileIdx', {
-        templateUrl: '{% url "fir_irma:ui:view" name="details" %}',
+      .when('{% url "irma:ui:index" sub="" %}scan/:scanId/file/:fileIdx', {
+        templateUrl: '{% url "irma:ui:view" name="details" %}',
         controller: 'DetailsCtrl',
         controllerAs: 'vm',
         location: 'results',
@@ -77,8 +77,8 @@ angular.module('irma', [
           maintenance: ['state', function(state){ return state.pingApi();}]
         }
       })
-      .when('{% url "fir_irma:ui:index" sub="search" %}', {
-        templateUrl: '{% url "fir_irma:ui:view" name="search" %}',
+      .when('{% url "irma:ui:index" sub="search" %}', {
+        templateUrl: '{% url "irma:ui:view" name="search" %}',
         controller: 'SearchCtrl',
         controllerAs: 'vm',
         location: 'search',
@@ -86,15 +86,15 @@ angular.module('irma', [
           maintenance: ['state', function(state){ return state.pingApi();}]
         }
       })
-      .when('{% url "fir_irma:ui:index" sub="maintenance" %}',
+      .when('{% url "irma:ui:index" sub="maintenance" %}',
        {
-        templateUrl: '{% url "fir_irma:ui:view" name="maintenance" %}',
+        templateUrl: '{% url "irma:ui:view" name="maintenance" %}',
         controller: 'MaintenanceCtrl',
         resolve: {
           maintenance: ['state', function(state){ return state.noPingApi();}]
         }
       })
-      .otherwise({ redirectTo: '{% url "fir_irma:ui:index" sub="selection" %}' });
+      .otherwise({ redirectTo: '{% url "irma:ui:index" sub="selection" %}' });
   }])
   .run(['$window', '$rootScope', '$location', '$anchorScroll', function($window, $rootScope, $location, $anchorScroll) {
 

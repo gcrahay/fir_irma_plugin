@@ -58,7 +58,7 @@
             <tbody>
                 <tr ng-repeat="infos in state.scan.results">
                     <td>
-                        <a href="{% url "fir_irma:ui:index" sub="" %}scan/{$state.scan.id$}/file/{$infos.result_id$}">{$infos.name$}</a>
+                        <a href="{% url "irma:ui:index" sub="" %}scan/{$state.scan.id$}/file/{$infos.result_id$}">{$infos.name$}</a>
                     </td>
                     <td>
                         <span class="label" ng-class="(infos.status == 0) ? 'label-success' : 'label-danger'">{$infos.probes_finished$} / {$infos.probes_total$}</span>

@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="row">
   <div class="col-md-9" role="main">
-    <p><a href="{% url "fir_irma:ui:index" sub="" %}scan/{$state.scan.id$}">{% trans "Back to the scan summary" %}</a></p>
+    <p><a href="{% url "irma:ui:index" sub="" %}scan/{$state.scan.id$}">{% trans "Back to the scan summary" %}</a></p>
 
     <div class="result-section">
       <h2 id="file-informations">{% trans "File informations" %}</h2>
